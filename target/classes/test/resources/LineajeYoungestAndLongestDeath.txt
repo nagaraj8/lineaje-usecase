@@ -1,3 +1,0 @@
-Youngest and Longest Deaths
-Youngest Death, Name: Second++ and age: 17
-Longest Death, Name: Third+/// and age: 94

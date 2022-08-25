@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.lineaje.assessment.cache.LRUCache;
 import com.lineaje.assessment.model.Member;
 import com.lineaje.assessment.model.MemberData;
 
@@ -14,7 +15,7 @@ public class Utils {
 	
 	private static String filePath;
 	
-	private static Map<String, List<MemberData>> cache = new ConcurrentHashMap<>();
+	private static LRUCache cache = new LRUCache(10);
 
 	public Utils(String filePath) {
 		this.filePath = filePath;
@@ -62,13 +63,13 @@ public class Utils {
 	
 	public List<MemberData> getModifiedList(List<Member> members) {
 		if(null != filePath && !filePath.isEmpty()) {
-			if(cache.get(filePath) == null || cache.get(filePath).isEmpty()) {
+			if(cache.get(filePath) == null) {
 				List<MemberData> memberData = getMemberData(members);
 				sort(memberData);
 				cache.put(filePath, memberData);
 				return memberData;
 			} else {
-				return cache.get(filePath);
+				return (List<MemberData>)cache.get(filePath);
 			}
 		} else {
 			List<MemberData> memberData = getMemberData(members);
